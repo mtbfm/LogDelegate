@@ -8,13 +8,15 @@ import android.util.Log;
  */
 public class Settings {
 
-    int methodOffset = 0;
+    public int methodOffset = 0;
 
-    boolean showMethodLink = true;
+    public boolean showMethodLink = true;
 
-    boolean showThreadInfo = false;
+    public boolean showThreadInfo = false;
 
     int priority = Log.VERBOSE;
+
+    public PrintStyle style;
 
     public Settings setMethodOffset(int methodOffset) {
         this.methodOffset = methodOffset;
@@ -43,4 +45,10 @@ public class Settings {
         this.priority = priority;
         return this;
     }
+
+    public Settings setStyle(PrintStyle style) {
+        this.style = style;
+        return this;
+    }
+
 }

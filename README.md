@@ -3,7 +3,7 @@
 
 <img align="right" src='https://raw.githubusercontent.com/tianzhijiexian/logger/master/images/logger-logo.png' width='128' height='128'/>
 
-###Logger
+### Logger
 Simple, pretty and powerful logger for android
 
 Logger provides :
@@ -13,8 +13,11 @@ Logger provides :
 - Pretty-print for json content
 - Pretty-print for new line "\n"
 - Clean output
-- Jump to source
+- print long log 
+- Jump to source(by link)
 - Smart log tag
+- different log style
+- null message
 - support large string  
 
 ### Gradle
@@ -28,7 +31,7 @@ allprojects {
 }
 ```  
 Add the dependency  
-> compile 'com.github.tianzhijiexian:logger:[Latest release](https://github.com/tianzhijiexian/logger/releases)'
+> compile 'com.github.tianzhijiexian:logger:[Latest release](https://github.com/tianzhijiexian/logger/releases)(<-click)'
 
 and also compile https://github.com/JakeWharton/timber
 
@@ -115,6 +118,7 @@ public class MyApplication extends Application {
         super.onCreate();
 				Logger.initialize(
                 new Settings()
+						.setStyle(new LogPrintStyle())
                         .isShowMethodLink(true)
                         .isShowThreadInfo(false)
                         .setMethodOffset(0)

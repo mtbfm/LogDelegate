@@ -1,13 +1,13 @@
 package com.orhanobut.loggersample;
 
-import com.orhanobut.logger.Logger;
-import com.orhanobut.logger.Settings;
-
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
+
+import com.orhanobut.logger.Logger;
+import com.orhanobut.logger.Settings;
 
 import java.util.Arrays;
 
@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         Logger.initialize(
                 new Settings()
+//                        .setStyle(new XLogStyle())
                         .isShowMethodLink(true)
                         .isShowThreadInfo(false)
                         .setMethodOffset(0)
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         Logger.getSettings().setLogPriority(Log.ASSERT); // close log
 
         CrashHandler.getInstance().init(); // 崩溃检测处理器
-        
+
 //        setRes(123);  // 模拟崩溃
     }
 
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             // 防御了崩溃
             e.printStackTrace();
-            
+
             // 把崩溃的异常和当前的上下文通过log系统分发
             Logger.e(e, "res id = " + resId);
         }

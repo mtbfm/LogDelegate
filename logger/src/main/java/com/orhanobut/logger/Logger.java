@@ -1,9 +1,9 @@
 package com.orhanobut.logger;
 
+import android.support.annotation.NonNull;
+
 import com.orhanobut.logger.util.ObjParser;
 import com.orhanobut.logger.util.XmlJsonParser;
-
-import android.support.annotation.NonNull;
 
 import timber.log.Timber;
 
@@ -15,6 +15,8 @@ import timber.log.Timber;
  */
 public class Logger {
 
+    public static final int STACK_OFFSET = 9;
+
     private static LogPrinter printer;
 
     // @formatter:off
@@ -22,7 +24,13 @@ public class Logger {
     // @formatter:on
 
     public static void initialize(Settings settings) {
+        PrintStyle style = settings.style;
+        if (style == null) {
+            style = new LogPrintStyle();
+            settings.setStyle(style);
+        }
         printer = new LogPrinter(settings);
+        style.setPrinter(printer);
         Timber.plant(printer);
     }
 
