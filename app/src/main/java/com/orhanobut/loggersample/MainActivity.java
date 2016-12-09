@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
                 new Settings()
 //                        .setStyle(new XLogStyle())
                         .isShowMethodLink(true)
-                        .isShowThreadInfo(false)
+                        .isShowThreadInfo(true)
                         .setMethodOffset(0)
                         .setLogPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
         );
@@ -37,8 +37,15 @@ public class MainActivity extends AppCompatActivity {
         jsonTest();
         locationTest();
         largeDataTest();
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                Logger.d("In Other Thread");
+            }
+        }.start();
 
-        Logger.getSettings().setLogPriority(Log.ASSERT); // close log
+//        Logger.getSettings().setLogPriority(Log.ASSERT); // close log
 
         CrashHandler.getInstance().init(); // 崩溃检测处理器
 

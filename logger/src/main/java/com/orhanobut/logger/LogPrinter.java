@@ -34,7 +34,9 @@ public final class LogPrinter extends Timber.DebugTree {
     protected String createStackElementTag(StackTraceElement ignored) {
         isCustomTag = false;
         int offset = Logger.STACK_OFFSET + settings.methodOffset - 1; // 调整栈的位置
-        return super.createStackElementTag(new Throwable().getStackTrace()[offset]);
+        final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
+        int length = stackTrace.length;
+        return super.createStackElementTag(length > offset ? stackTrace[offset] : stackTrace[stackTrace.length - 1]);
     }
 
     @Override
