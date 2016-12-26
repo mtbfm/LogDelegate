@@ -1,5 +1,7 @@
 package com.orhanobut.loggersample;
 
+import java.util.Arrays;
+
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
@@ -9,15 +11,20 @@ import android.widget.TextView;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.Settings;
 
-import java.util.Arrays;
-
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // lint
+        System.out.println("lint error");
 
+        Log.d(TAG, "onCreate: lint error");
+        
         Logger.initialize(
                 new Settings()
 //                        .setStyle(new XLogStyle())
