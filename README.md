@@ -97,9 +97,9 @@ logger.object(...); // bean/map/Collection...
 Logger.t("Custom Tag").w("logger with custom tag");
 
 try {
-		Class.forName("kale");
+	Class.forName("kale");
 } catch (ClassNotFoundException e) {
-		Logger.e(e, "something happened"); // exception
+	Logger.e(e, "something happened"); // exception
 }
 
 Logger.d("first\nsecond\nthird"); // third line
@@ -114,9 +114,9 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-				Logger.initialize(
+	Logger.initialize(
                 new LogBuilder()
-						.logPrintStyle(new XLogStyle())
+			.logPrintStyle(new XLogStyle())
                         .showMethodLink(true)
                         .showThreadInfo(true)
                         .tagPrefix("kale")
