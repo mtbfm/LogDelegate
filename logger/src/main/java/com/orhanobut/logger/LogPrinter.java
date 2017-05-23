@@ -18,13 +18,13 @@ public final class LogPrinter extends Timber.DebugTree {
     private boolean isCustomTag = true;
 
     @Getter
-    private final Settings settings;
+    private final LogBuilder logBuilder;
 
     private static final String PROPERTY = System.getProperty("line.separator");
 
-    LogPrinter(Settings settings) {
-        this.settings = settings;
-        this.style = settings.style;
+    LogPrinter(LogBuilder logBuilder) {
+        this.logBuilder = logBuilder;
+        this.style = logBuilder.style;
     }
 
     /**
@@ -32,13 +32,27 @@ public final class LogPrinter extends Timber.DebugTree {
      */
     @Override
     protected String createStackElementTag(StackTraceElement ignored) {
+        String tag;
         isCustomTag = false;
-        int offset = Logger.STACK_OFFSET + settings.methodOffset - 1; // 调整栈的位置
-        final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
-        int length = stackTrace.length;
-        return super.createStackElementTag(length > offset ? stackTrace[offset] : stackTrace[stackTrace.length - 1]);
+        if (logBuilder.globalTag != null) {
+            tag = logBuilder.globalTag;
+        } else {
+            int offset = Logger.STACK_OFFSET + logBuilder.methodOffset - 1; // 调整栈的位置
+            final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
+            int length = stackTrace.length;
+            tag = super.createStackElementTag(length > offset ? stackTrace[offset] : stackTrace[stackTrace.length - 1]);
+        }
+
+        String tagPrefix = logBuilder.tagPrefix;
+        if (tagPrefix != null) {
+            tag = tagPrefix + "-" + tag;
+        }
+        return tag;
     }
 
+    /**
+     * @param tag from {@link #createStackElementTag(StackTraceElement)}
+     */
     @Override
     protected void log(int priority, String tag, @NonNull String message, Throwable ignored) {
         if (style.beforePrint() != null) {
@@ -64,10 +78,10 @@ public final class LogPrinter extends Timber.DebugTree {
      */
     @Override
     protected boolean isLoggable(String tag, int priority) {
-        return priority >= settings.priority;
+        return priority >= logBuilder.priority;
     }
 
-    public boolean isCustomTag() {
+    boolean isCustomTag() {
         return isCustomTag;
     }
 }

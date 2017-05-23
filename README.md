@@ -33,9 +33,7 @@ allprojects {
 Add the dependency  
 > compile 'com.github.tianzhijiexian:logger:[Latest release](https://github.com/tianzhijiexian/logger/releases)(<-click)'
 
-and also compile https://github.com/JakeWharton/timber
-
-### Logger  
+### Print  
 ```
 D/MainActivity: ║first
 D/MainActivity: ║second
@@ -117,12 +115,15 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 				Logger.initialize(
-                new Settings()
-						.setStyle(new LogPrintStyle())
-                        .isShowMethodLink(true)
-                        .isShowThreadInfo(false)
-                        .setMethodOffset(0)
-                        .setLogPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
+                new LogBuilder()
+						.logPrintStyle(new XLogStyle())
+                        .showMethodLink(true)
+                        .showThreadInfo(true)
+                        .tagPrefix("kale")
+                        .globalTag("aaaaaa")
+                        .methodOffset(0)
+                        .logPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
+                        .build()
         );
     }
 }
@@ -135,6 +136,7 @@ Note: Use LogLevel.NONE for the release versions.
 - [Bee](https://github.com/orhanobut/bee) QA/Debug tool
 - [DialogPlus](https://github.com/orhanobut/dialogplus) Easy,simple dialog solution
 - [SimpleListView](https://github.com/orhanobut/simplelistview) Simple basic listview implementation with linearlayout
+- [Android-PLog](https://github.com/Muyangmin/Android-PLog) A Pure, Pretty and Powerful logging library for android.
 
 ###License
 <pre>

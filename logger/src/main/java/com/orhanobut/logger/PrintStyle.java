@@ -25,8 +25,8 @@ public abstract class PrintStyle {
     @Nullable
     protected abstract String afterPrint();
 
-    public Settings getSettings() {
-        return printer.getSettings();
+    public LogBuilder getSettings() {
+        return printer.getLogBuilder();
     }
 
     public LogPrinter getPrinter() {

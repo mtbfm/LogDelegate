@@ -6,7 +6,7 @@ import android.util.Log;
  * @author Kale
  * @date 2016/3/27
  */
-public class Settings {
+public class LogBuilder {
 
     public int methodOffset = 0;
 
@@ -14,21 +14,25 @@ public class Settings {
 
     public boolean showThreadInfo = false;
 
+    public String tagPrefix = null;
+
+    public String globalTag = null;
+
     int priority = Log.VERBOSE;
 
     public PrintStyle style;
 
-    public Settings setMethodOffset(int methodOffset) {
+    public LogBuilder methodOffset(int methodOffset) {
         this.methodOffset = methodOffset;
         return this;
     }
 
-    public Settings isShowThreadInfo(boolean showThreadInfo) {
+    public LogBuilder showThreadInfo(boolean showThreadInfo) {
         this.showThreadInfo = showThreadInfo;
         return this;
     }
 
-    public Settings isShowMethodLink(boolean showMethodLink) {
+    public LogBuilder showMethodLink(boolean showMethodLink) {
         this.showMethodLink = showMethodLink;
         return this;
     }
@@ -41,14 +45,27 @@ public class Settings {
      *                 {@link Log#WARN},
      *                 {@link Log#ERROR}
      */
-    public Settings setLogPriority(int priority) {
+    public LogBuilder logPriority(int priority) {
         this.priority = priority;
         return this;
     }
 
-    public Settings setStyle(PrintStyle style) {
+    public LogBuilder logPrintStyle(PrintStyle style) {
         this.style = style;
         return this;
     }
 
+    public LogBuilder globalTag(String globalTag) {
+        this.globalTag = globalTag;
+        return this;
+    }
+
+    public LogBuilder tagPrefix(String prefix) {
+        this.tagPrefix = prefix;
+        return this;
+    }
+
+    public LogBuilder build() {
+        return this; // simple
+    }
 }

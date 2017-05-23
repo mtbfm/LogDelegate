@@ -1,6 +1,7 @@
 package com.orhanobut.logger;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.orhanobut.logger.util.ObjParser;
 import com.orhanobut.logger.util.XmlJsonParser;
@@ -23,19 +24,47 @@ public class Logger {
     protected Logger() {}
     // @formatter:on
 
-    public static void initialize(Settings settings) {
-        PrintStyle style = settings.style;
+    public static void initialize(LogBuilder logBuilder) {
+        PrintStyle style = logBuilder.style;
         if (style == null) {
             style = new LogPrintStyle();
-            settings.setStyle(style);
+            logBuilder.logPrintStyle(style);
         }
-        printer = new LogPrinter(settings);
+        printer = new LogPrinter(logBuilder);
         style.setPrinter(printer);
         Timber.plant(printer);
     }
 
-    public static Settings getSettings() {
-        return printer.getSettings();
+    /**
+     * @param priority one of
+     *                 {@link Log#VERBOSE},
+     *                 {@link Log#DEBUG},
+     *                 {@link Log#INFO},
+     *                 {@link Log#WARN},
+     *                 {@link Log#ERROR}
+     */
+    public static void openLog(int priority) {
+        changeLogLev(priority);
+    }
+
+    /**
+     * @param priority one of
+     *                 {@link Log#VERBOSE},
+     *                 {@link Log#DEBUG},
+     *                 {@link Log#INFO},
+     *                 {@link Log#WARN},
+     *                 {@link Log#ERROR}
+     */
+    public static void changeLogLev(int priority) {
+        printer.getLogBuilder().logPriority(priority).build();
+    }
+
+    public static void closeLog() {
+        printer.getLogBuilder().logPriority(Log.ASSERT);
+    }
+
+    public static LogBuilder getBuild() {
+        return printer.getLogBuilder();
     }
 
     public static Timber.Tree t(String tag) {
@@ -104,10 +133,16 @@ public class Logger {
         Timber.d(ObjParser.parseObj(object));
     }
 
+    /**
+     * 插入自定义的tree
+     */
     public static void plant(Timber.Tree tree) {
         Timber.plant(tree);
     }
 
+    /**
+     * 清空所有tree
+     */
     public static void uprootAll() {
         Timber.uprootAll();
     }

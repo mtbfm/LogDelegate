@@ -8,30 +8,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.orhanobut.logger.LogBuilder;
 import com.orhanobut.logger.Logger;
-import com.orhanobut.logger.Settings;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        // lint
+
+        // lint check
         System.out.println("lint error");
 
         Log.d(TAG, "onCreate: lint error");
-        
+
         Logger.initialize(
-                new Settings()
-//                        .setStyle(new XLogStyle())
-                        .isShowMethodLink(true)
-                        .isShowThreadInfo(true)
-                        .setMethodOffset(0)
-                        .setLogPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
+                new LogBuilder()
+                        .logPrintStyle(new XLogStyle())
+                        .showMethodLink(true)
+                        .showThreadInfo(true)
+                        .tagPrefix("kale")
+                        .globalTag("aaaaaa")
+                        .methodOffset(0)
+                        .logPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
+                        .build()
         );
 
         if (!BuildConfig.DEBUG) {
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         jsonTest();
         locationTest();
         largeDataTest();
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 super.run();
@@ -52,8 +55,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
 
-//        Logger.getSettings().setLogPriority(Log.ASSERT); // close log
+        Logger.closeLog(); // close log
 
+        Logger.e("can you see me~!");
+
+        Logger.openLog(Log.INFO);
+
+        Logger.i("googogogoog");
+        
         CrashHandler.getInstance().init(); // 崩溃检测处理器
 
 //        setRes(123);  // 模拟崩溃
