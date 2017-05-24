@@ -68,6 +68,7 @@ public class Logger {
     }
 
     public static Timber.Tree t(String tag) {
+        tag = printer.maybeAddPrefix(tag);
         return Timber.tag(tag);
     }
 

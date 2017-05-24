@@ -42,7 +42,10 @@ public final class LogPrinter extends Timber.DebugTree {
             int length = stackTrace.length;
             tag = super.createStackElementTag(length > offset ? stackTrace[offset] : stackTrace[stackTrace.length - 1]);
         }
+        return maybeAddPrefix(tag);
+    }
 
+    public String maybeAddPrefix(String tag) {
         String tagPrefix = logBuilder.tagPrefix;
         if (tagPrefix != null) {
             tag = tagPrefix + "-" + tag;

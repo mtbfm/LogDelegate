@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.orhanobut.logger.LogBuilder;
 import com.orhanobut.logger.Logger;
 
+import timber.log.Timber;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Logger.uprootAll();
+        
         // lint check
         System.out.println("lint error");
 
@@ -31,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                         .showMethodLink(true)
                         .showThreadInfo(true)
                         .tagPrefix("kale")
-                        .globalTag("aaaaaa")
+//                        .globalTag("aaaaaa")
                         .methodOffset(0)
                         .logPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
                         .build()
