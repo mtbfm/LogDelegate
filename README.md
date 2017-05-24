@@ -24,10 +24,10 @@ Logger provides :
 Add it in your root build.gradle at the end of repositories:  
 ```groovy
 allprojects {
-	repositories {
-		...
-		maven { url "https://jitpack.io" }
-	}
+    repositories {
+	//...
+	maven { url "https://jitpack.io" }
+    }
 }
 ```  
 Add the dependency  
@@ -138,7 +138,7 @@ Note: Use LogLevel.NONE for the release versions.
 - [SimpleListView](https://github.com/orhanobut/simplelistview) Simple basic listview implementation with linearlayout
 - [Android-PLog](https://github.com/Muyangmin/Android-PLog) A Pure, Pretty and Powerful logging library for android.
 
-###License
+### License
 <pre>
 Copyright 2015 Orhan Obut
 
