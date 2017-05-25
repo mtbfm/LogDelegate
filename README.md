@@ -106,7 +106,7 @@ Logger.d("first\nsecond\nthird"); // third line
 ```
 
 ### Settings (optional)
-Change the settings with init. This should be called only once. Best place would be in application class. All of them
+This should be called only once. Best place would be in application class. All of them
  are optional.
 ```java
 public class MyApplication extends Application {
@@ -128,7 +128,6 @@ public class MyApplication extends Application {
     }
 }
 ```
-Note: Use LogLevel.NONE for the release versions.
 
 #### You might also like
 - [Hawk](https://github.com/orhanobut/hawk) Simple,powerful,secure key-value storage

@@ -22,6 +22,10 @@ public class LogBuilder {
 
     public PrintStyle style;
 
+    public static LogBuilder create() {
+        return new LogBuilder();
+    }
+
     public LogBuilder methodOffset(int methodOffset) {
         this.methodOffset = methodOffset;
         return this;

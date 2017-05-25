@@ -30,12 +30,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: lint error");
 
         Logger.initialize(
-                new LogBuilder()
+                LogBuilder.create()
                         .logPrintStyle(new XLogStyle())
                         .showMethodLink(true)
                         .showThreadInfo(true)
                         .tagPrefix("kale")
-//                        .globalTag("aaaaaa")
+//                        .globalTag("globalTag")
                         .methodOffset(0)
                         .logPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
                         .build()
