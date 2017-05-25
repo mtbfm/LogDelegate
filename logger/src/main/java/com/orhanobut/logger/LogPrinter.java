@@ -37,10 +37,10 @@ public final class LogPrinter extends Timber.DebugTree {
         if (logBuilder.globalTag != null) {
             tag = logBuilder.globalTag;
         } else {
-            int offset = Logger.STACK_OFFSET + logBuilder.methodOffset - 1; // 调整栈的位置
+            int offset = Logger.STACK_OFFSET + logBuilder.methodOffset - 2; // 调整栈的位置
             final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
-            int length = stackTrace.length;
-            tag = super.createStackElementTag(length > offset ? stackTrace[offset] : stackTrace[stackTrace.length - 1]);
+            final int length = stackTrace.length;
+            tag = super.createStackElementTag(length > offset ? stackTrace[offset] : stackTrace[length - 1]);
         }
         return maybeAddPrefix(tag);
     }
