@@ -1,4 +1,4 @@
-package com.orhanobut.loggersample.parser;
+package com.orhanobut.logger.helper.parser;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -19,7 +19,7 @@ public class ObjParser {
     private final static String[] TYPES = {"int", "java.lang.String", "boolean", "char",
             "float", "double", "long", "short", "byte"};
 
-    public static String parseObj(Object object) {
+    public static String obj(Object object) {
         if (object == null) {
             return "null";
         }

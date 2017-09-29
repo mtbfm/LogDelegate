@@ -40,6 +40,22 @@ public class LogSettings {
         return new LogSettings();
     }
 
+    /**
+     * @param priority one of
+     *                 {@link Log#VERBOSE},
+     *                 {@link Log#DEBUG},
+     *                 {@link Log#INFO},
+     *                 {@link Log#WARN},
+     *                 {@link Log#ERROR}
+     */
+    public void changeLogLev(int priority) {
+        this.priority = priority;
+    }
+
+    public void closeLog() {
+        priority = Log.ASSERT;
+    }
+
     public static class Builder {
 
         private LogSettings settings = new LogSettings();

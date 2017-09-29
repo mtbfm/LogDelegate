@@ -1,16 +1,16 @@
-package com.orhanobut.loggersample;
+package com.orhanobut.loggersample.format;
 
 import android.support.annotation.Nullable;
 
-import com.orhanobut.logger.helper.AbsLogStyle;
-import com.orhanobut.logger.helper.LogPrintHelper;
+import com.orhanobut.logger.helper.AbsLogFormat;
+import com.orhanobut.logger.helper.LogPrintDelegate;
 
 /**
  * @author Kale
  * @date 2016/12/8
  */
 
-public class XLogStyle extends AbsLogStyle {
+public class PrettyFormat extends AbsLogFormat {
 
     @Nullable
     @Override
@@ -22,7 +22,7 @@ public class XLogStyle extends AbsLogStyle {
         final StackTraceElement[] stack = Thread.currentThread().getStackTrace();
         String format = format(stack);
         top += "\n" + format;
-        top += "║────────────────────────────────────────────────────────────────────────────";
+        top += "║────────────────────────────────────────────────────────────────────────────\n";
         return top;
     }
 
@@ -33,7 +33,7 @@ public class XLogStyle extends AbsLogStyle {
         } else if (stackTrace.length == 1) {
             return "\t─ " + stackTrace[0].toString();
         } else {
-            int index = LogPrintHelper.BASE_STACK_OFFSET + getSettings().getMethodOffset();
+            int index = LogPrintDelegate.BASE_STACK_OFFSET + getSettings().getMethodOffset();
             for (int i = index, N = stackTrace.length; i < N - index; i++) {
                 if (i != N - index - 1) {
                     sb.append("║\t├ ");
@@ -56,7 +56,7 @@ public class XLogStyle extends AbsLogStyle {
 
     @Nullable
     @Override
-    protected String getMsgLine(String message, int line, int lineCount) {
+    protected String getFormatMsgLine(String message, int line, int lineCount) {
         String prefix = "║";
         if (lineCount == 1) {
             return prefix + message;

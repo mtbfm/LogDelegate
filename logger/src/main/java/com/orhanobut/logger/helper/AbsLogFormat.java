@@ -8,11 +8,11 @@ import android.support.annotation.Nullable;
  *
  * 针对log进行样式的处理
  */
-public abstract class AbsLogStyle {
+public abstract class AbsLogFormat {
 
-    protected LogPrintHelper helper;
+    protected LogPrintDelegate helper;
 
-    void setHelper(LogPrintHelper helper) {
+    void setHelper(LogPrintDelegate helper) {
         this.helper = helper;
     }
 
@@ -34,5 +34,5 @@ public abstract class AbsLogStyle {
     protected abstract String getMsgFooter();
 
     @Nullable
-    protected abstract String getMsgLine(String message, int line, int lineCount);
+    protected abstract String getFormatMsgLine(String message, int line, int lineCount);
 }

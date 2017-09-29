@@ -11,13 +11,9 @@ import android.text.TextUtils;
  * @author Kale
  * @date 2017/9/28
  */
-public class LogPrintHelper {
+public class LogPrintDelegate {
 
     public static final int BASE_STACK_OFFSET = 10;
-
-    private static final Pattern ANONYMOUS_CLASS = Pattern.compile("(\\$\\d+)+$");
-
-    private static final String PROPERTY = System.getProperty("line.separator");
 
     private static final int MIN_STACK_OFFSET = 5;
 
@@ -25,22 +21,26 @@ public class LogPrintHelper {
 
     private static final int MAX_TAG_LENGTH = 23;
 
+    private static final String PROPERTY = System.getProperty("line.separator");
+
+    private static final Pattern ANONYMOUS_CLASS = Pattern.compile("(\\$\\d+)+$");
+
     private StringBuilder sb;
 
     private final LogSettings settings;
 
-    private AbsLogStyle style;
+    private AbsLogFormat format;
 
     private ILog logImp;
 
     private boolean hasCustomTag = true;
 
-    public LogPrintHelper(LogSettings settings, AbsLogStyle style, ILog imp) {
+    public LogPrintDelegate(LogSettings settings, AbsLogFormat mFormat, ILog imp) {
         this.settings = settings;
-        this.style = style;
-        sb = new StringBuilder();
+        this.format = mFormat;
         logImp = imp;
-        style.setHelper(this);
+        sb = new StringBuilder();
+        mFormat.setHelper(this);
     }
 
     /**
@@ -90,10 +90,9 @@ public class LogPrintHelper {
     }
 
     public void printLog(int priority, String tag, String message, Throwable t) {
-        handleStyle(message);
-
-        message = sb.toString();
-
+        message = formatMessage(message, sb).toString();
+        sb.setLength(0);
+        
         if (message.length() < MAX_LOG_LENGTH) {
             logImp.println(priority, tag, message, t);
             hasCustomTag = true;
@@ -113,18 +112,17 @@ public class LogPrintHelper {
         hasCustomTag = true;
     }
 
-    private void handleStyle(@NonNull String message) {
-        sb = new StringBuilder();
-
-        if (style == null) {
-            return;
+    private StringBuilder formatMessage(@NonNull String message, StringBuilder sb) {
+        if (format == null) {
+            return sb;
         }
-        sb.append(style.getMsgHeader() == null ? "" : style.getMsgHeader());
+        sb.append(format.getMsgHeader() == null ? "" : format.getMsgHeader());
         String[] lines = message.split(PROPERTY);
         for (int i = 0, length = lines.length; i < length; i++) {
-            sb.append(style.getMsgLine(lines[i], i, length)).append("\n");
+            sb.append(format.getFormatMsgLine(lines[i], i, length)).append("\n");
         }
-        sb.append(style.getMsgFooter() == null ? "" : style.getMsgFooter());
+        sb.append(format.getMsgFooter() == null ? "" : format.getMsgFooter());
+        return sb;
     }
 
     public boolean isLoggable(int priority, String tag) {

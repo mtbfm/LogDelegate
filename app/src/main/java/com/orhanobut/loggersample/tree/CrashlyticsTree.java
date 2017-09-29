@@ -1,4 +1,4 @@
-package com.orhanobut.loggersample.timber;
+package com.orhanobut.loggersample.tree;
 
 import android.support.annotation.Nullable;
 import android.util.Log;

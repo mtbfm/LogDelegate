@@ -6,7 +6,19 @@ import android.support.annotation.Nullable;
  * @author Kale
  * @date 2017/9/28
  */
-public class DefaultStyle extends AbsLogStyle {
+public class DefaultFormat extends AbsLogFormat {
+
+    private StringBuilder sb = new StringBuilder();
+
+    private final int tailOffset;
+
+    public DefaultFormat() {
+        tailOffset = 0;
+    }
+
+    public DefaultFormat(int tailOffset) {
+        this.tailOffset = tailOffset;
+    }
 
     @Nullable
     @Override
@@ -22,10 +34,14 @@ public class DefaultStyle extends AbsLogStyle {
 
     @Nullable
     @Override
-    public String getMsgLine(String message, int line, int lineCount) {
+    public String getFormatMsgLine(String message, int line, int lineCount) {
         if (line == lineCount - 1) {
             // last line or single line
-            return "└ " + message + getTail();
+            String s = "";
+            if (getSettings().isShowThreadInfo()) {
+                s = " Thread: " + Thread.currentThread().getName(); // Thread:main
+            }
+            return "└ " + message + getTail() + s;
         } else {
             return "│ " + message;
         }
@@ -35,12 +51,13 @@ public class DefaultStyle extends AbsLogStyle {
      * @return ==> onCreate(MainActivity.java:827) Thread:main
      */
     private String getTail() {
-        StringBuilder sb = new StringBuilder();
         if (!getSettings().isShowMethodLink()) {
             return "";
         }
 
-        int index = LogPrintHelper.BASE_STACK_OFFSET + getSettings().getMethodOffset() + 1;
+        sb.setLength(0);
+
+        int index = LogPrintDelegate.BASE_STACK_OFFSET + getSettings().getMethodOffset() + tailOffset;
         if (hasCustomTag()) {
             // 如果自定义的tag，那么会多走一个方法
             index -= 1;
@@ -59,9 +76,6 @@ public class DefaultStyle extends AbsLogStyle {
                 stack.getFileName(),
                 stack.getLineNumber()));
 
-        if (getSettings().isShowThreadInfo()) {
-            sb.append(" Thread: ").append(Thread.currentThread().getName()); // Thread:main
-        }
         return sb.toString();
     }
 

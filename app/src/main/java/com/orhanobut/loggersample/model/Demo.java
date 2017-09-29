@@ -5,9 +5,9 @@ import timber.log.Timber;
 /**
  * @author Orhan Obut
  */
-public class Foo {
+public class Demo {
 
-    public static void print(){
-        Timber.d("other class");
+    public void print(){
+        Timber.d("from Demo class");
     }
 }

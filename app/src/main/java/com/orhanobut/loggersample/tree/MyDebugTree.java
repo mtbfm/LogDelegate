@@ -1,10 +1,10 @@
-package com.orhanobut.loggersample.timber;
+package com.orhanobut.loggersample.tree;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.orhanobut.logger.helper.DefaultStyle;
-import com.orhanobut.logger.helper.LogPrintHelper;
+import com.orhanobut.logger.helper.DefaultFormat;
+import com.orhanobut.logger.helper.LogPrintDelegate;
 import com.orhanobut.logger.helper.LogSettings;
 
 import timber.log.Timber;
@@ -12,22 +12,22 @@ import timber.log.Timber;
 /**
  * extends {@link timber.log.Timber.Tree} for make log pretty
  */
-public final class TimberDebugTree extends Timber.DebugTree implements LogPrintHelper.ILog {
+public final class MyDebugTree extends Timber.DebugTree implements LogPrintDelegate.ILog {
 
-    private LogPrintHelper helper;
+    private LogPrintDelegate mDelegate;
 
-    TimberDebugTree(LogSettings settings) {
-        helper = new LogPrintHelper(settings, new DefaultStyle(), this);
+    public MyDebugTree(LogSettings settings) {
+        mDelegate = new LogPrintDelegate(settings, new DefaultFormat(), this);
     }
 
     @Override
     protected String createStackElementTag(StackTraceElement element) {
-        return helper.getAutoTag(null);
+        return mDelegate.getAutoTag(element);
     }
 
     @Override
     protected void log(int priority, String tag, @NonNull String message, Throwable t) {
-        helper.printLog(priority, tag, message, t);
+        mDelegate.printLog(priority, tag, message, t);
     }
 
     @Override

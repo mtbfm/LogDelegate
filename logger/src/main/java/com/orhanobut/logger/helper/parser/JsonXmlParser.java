@@ -1,4 +1,4 @@
-package com.orhanobut.loggersample.parser;
+package com.orhanobut.logger.helper.parser;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -23,7 +23,7 @@ import org.json.JSONObject;
  * @author Kale
  * @date 2016/3/23
  */
-public class XmlJsonParser {
+public class JsonXmlParser {
 
     /**
      * It is used for json pretty print
@@ -33,7 +33,7 @@ public class XmlJsonParser {
     @CheckResult
     public static String xml(String xml) {
         if (TextUtils.isEmpty(xml)) {
-            return "Empty/Null xml content.(This getMsgLine from logger)";
+            return "Empty/Null xml content.(This getFormatMsgLine from logger)";
         }
         try {
             Source xmlInput = new StreamSource(new StringReader(xml));
@@ -51,7 +51,7 @@ public class XmlJsonParser {
     @CheckResult
     public static String json(@Nullable String json) {
         if (TextUtils.isEmpty(json)) {
-            return "Empty/Null json content.(This getMsgLine from logger)";
+            return "Empty/Null json content.(This getFormatMsgLine from logger)";
         }
         try {
             if (json.startsWith("{")) {
@@ -62,6 +62,6 @@ public class XmlJsonParser {
         } catch (JSONException e) {
             return e.getCause().getMessage() + "\n" + json;
         }
-        return "Log error!.(This getMsgLine from logger)";
+        return "Log error!.(This getFormatMsgLine from logger)";
     }
 }

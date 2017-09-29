@@ -1,5 +1,5 @@
 [![](https://jitpack.io/v/tianzhijiexian/logger.svg)](https://jitpack.io/#tianzhijiexian/logger)
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Logger-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/1658) [![](https://img.shields.io/badge/AndroidWeekly-%23147-blue.svg)](http://androidweekly.net/issues/issue-147)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Logger-brightgreen.svg?mFormat=flat)](http://android-arsenal.com/details/1/1658) [![](https://img.shields.io/badge/AndroidWeekly-%23147-blue.svg)](http://androidweekly.net/issues/issue-147)
 
 <img align="right" src='https://raw.githubusercontent.com/tianzhijiexian/logger/master/images/logger-logo.png' width='128' height='128'/>
 
@@ -16,7 +16,7 @@ Logger provides :
 - print long log 
 - Jump to source(by link)
 - Smart log tag
-- different log style
+- different log mFormat
 - null message
 - support large string  
 
