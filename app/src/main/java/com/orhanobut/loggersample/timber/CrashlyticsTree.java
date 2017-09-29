@@ -1,4 +1,4 @@
-package com.orhanobut.loggersample;
+package com.orhanobut.loggersample.timber;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -10,6 +10,11 @@ import timber.log.Timber;
  * @date 2016/5/23
  */
 public class CrashlyticsTree extends Timber.Tree {
+
+    @Override
+    protected boolean isLoggable(String tag, int priority) {
+        return super.isLoggable(tag, priority);
+    }
 
     @Override
     protected void log(int priority, @Nullable String tag, @Nullable String message, @Nullable Throwable t) {

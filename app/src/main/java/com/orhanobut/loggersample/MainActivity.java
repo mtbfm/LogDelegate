@@ -1,17 +1,15 @@
 package com.orhanobut.loggersample;
 
-import java.util.Arrays;
-
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.TextView;
 
-import com.orhanobut.logger.LogBuilder;
 import com.orhanobut.logger.Logger;
-
-import timber.log.Timber;
+import com.orhanobut.logger.helper.LogSettings;
+import com.orhanobut.loggersample.model.Dummy;
+import com.orhanobut.loggersample.model.Foo;
+import com.orhanobut.loggersample.timber.TimberActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,35 +20,48 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Logger.uprootAll();
-        
-        // lint check
-        System.out.println("lint error");
-
-        Log.d(TAG, "onCreate: lint error");
-
-        Logger.initialize(
-                LogBuilder.create()
-                        .logPrintStyle(new XLogStyle())
-                        .showMethodLink(true)
-                        .showThreadInfo(true)
-                        .tagPrefix("kale")
-//                        .globalTag("globalTag")
-                        .methodOffset(0)
-                        .logPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
-                        .build()
-        );
-
-        if (!BuildConfig.DEBUG) {
-            // for release
-            Logger.plant(new CrashlyticsTree());
+        if (true) {
+            startActivity(new Intent(this, TimberActivity.class));
+            return;
         }
+        
+        LogSettings settings = new LogSettings.Builder()
+                .showMethodLink(true)
+                .showThreadInfo(true)
+                .tagPrefix("kale")
+//                        .globalTag("GLOBAL-TAG")
+                .methodOffset(0)
+                .logPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
+                .build();
+        
+        Logger.addLogAdapter(new MyLogAdapter(settings));
+        
+//        Logger.addLogAdapter(new AndroidLogAdapter());
+        
+        Logger.d("debug");
+        Logger.e("error");
+        Logger.w("warning");
+        Logger.v("verbose");
+        Logger.i("information");
+        Logger.wtf("wtf!!!!");
 
         levTest();
-        objTest();
-        jsonTest();
-        locationTest();
+        
         largeDataTest();
+        
+        jsonTest();
+
+        String xml = "<name>\n"
+                + "   <first>Bill</first>\n"
+                + "   <last>Gates</last>\n"
+                + "</name>";
+        Logger.xml(xml);
+
+        Logger.d(new User("kale", "male"));
+
+        // TODO: 2017/9/28 close log,change log lev 
+
+
         new Thread() {
             @Override
             public void run() {
@@ -59,56 +70,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
 
-        Logger.closeLog(); // close log
-
-        Logger.e("can you see me~!");
-
-        Logger.openLog(Log.INFO);
-
-        Logger.i("googogogoog");
-        
-        CrashHandler.getInstance().init(); // 崩溃检测处理器
-
-//        setRes(123);  // 模拟崩溃
-    }
-
-    private void levTest() {
-        Logger.v(null);
-        Logger.d("%s test", "kale"); // 多参数 可以解决release版本中字符拼接带来的性能消耗
-        String test = "abc %s def %s gh";
-        Logger.d(test);
-
-        //Logger.d(test, "s"); // Note:incorrect
-        Logger.t("Custom Tag");
-        Logger.t("Custom Tag").w("logger with custom tag");
-        try {
-            Class.forName("kale");
-        } catch (ClassNotFoundException e) {
-            Logger.e(e, "something happened"); // exception
-        }
-
-        Logger.d("first\nsecond\nthird");
-        test();
-    }
-
-    private void test() {
-        Logger.d("just test");
-    }
-
-    private void objTest() {
-        // object
-        Logger.object(new User("jack", "f"));
-        // list
-        Logger.object(Arrays.asList("kale", "jack", "tony"));
-        // array
-        Logger.object(new String[]{"Android", "ios", "wp"});
-        double[][] doubles = {
-                {1.2, 1.6, 1.7, 30, 33},
-                {1.2, 1.6, 1.7, 30, 33},
-                {1.2, 1.6, 1.7, 30, 33},
-                {1.2, 1.6, 1.7, 30, 33}
-        };
-        Logger.object(doubles);
+        new User("kale", "male").show();
+        new Foo().print();
     }
 
     private void jsonTest() {
@@ -116,22 +79,7 @@ public class MainActivity extends AppCompatActivity {
         String j = "[" + Dummy.JSON_WITH_NO_LINE_BREAK + "," + Dummy.JSON_WITH_LINE_BREAK + "]";
         Logger.json(j);
     }
-
-    private void locationTest() {
-        Foo.foo(); // other class
-        new User("kale", "m").show();// Internal class
-    }
-
-    private void largeDataTest() {
-        for (int i = 0; i < 20; i++) {
-            Logger.d("No." + i);
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    // 内部类中打log测试
-    ///////////////////////////////////////////////////////////////////////////
-
+    
     private static class User {
 
         private String name;
@@ -148,27 +96,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // crash
-    ///////////////////////////////////////////////////////////////////////////
+    private void levTest() {
+        Logger.v(null);
+        Logger.d("%s test", "kale"); // 多参数 可以解决release版本中字符拼接带来的性能消耗
+        String test = "abc %s def %s gh";
+        Logger.d(test);
 
-    /**
-     * 这里模拟后端给客户端传值的情况。
-     *
-     * 这里的id来自外部输入，如果外部输入的值有问题，那么就可能崩溃。
-     * 但理论上是不会有数据异常的，为了不崩溃，这里加try-catch
-     */
-    private void setRes(@StringRes int resId) {
-        TextView view = new TextView(this);
-
+        //Logger.d(test, "s"); // Note:incorrect
+        Logger.t("Custom Tag");
+        Logger.t("Custom Tag").w("logger with custom tag");
         try {
-            view.setText(resId); // 如果出现了崩溃，那么就会调用崩溃处理机制
-        } catch (Exception e) {
-            // 防御了崩溃
-            e.printStackTrace();
+            Class.forName("kale");
+        } catch (ClassNotFoundException e) {
+            Logger.e(e, "something happened"); // exception
+        }
+        Logger.w(Log.getStackTraceString(new Throwable()));
 
-            // 把崩溃的异常和当前的上下文通过log系统分发
-            Logger.e(e, "res id = " + resId);
+        Logger.d("first\nsecond\nthird");
+        test();
+    }
+
+    private void test() {
+        Logger.d("just test");
+    }
+
+    private void largeDataTest() {
+        for (int i = 0; i < 20; i++) {
+            Logger.d("No." + i);
         }
     }
 }

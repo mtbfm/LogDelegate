@@ -23,12 +23,14 @@ import lombok.ast.Node;
  */
 public class LogDetector extends Detector implements Detector.JavaScanner {
 
-    private static final String ISSUE_DESCRIPTION = "You should use our {AppLog}";
+    public static final String LOG_NAME = "Ln";
+
+    private static final String ISSUE_DESCRIPTION = "You should use our" + LOG_NAME;
 
     public static final Issue ISSUE = Issue.create(
             "LogUseError",
             "避免使用Log/System.out.println",
-            "使用{AppLog}，防止在正式包打印log",
+            "使用"+LOG_NAME+"，防止在正式包打印log",
             Category.SECURITY,
             5,
             Severity.ERROR,

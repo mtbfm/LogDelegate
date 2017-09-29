@@ -1,21 +1,20 @@
 package com.orhanobut.loggersample;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.orhanobut.logger.Logger;
-import com.orhanobut.logger.PrintStyle;
+import com.orhanobut.logger.helper.AbsLogStyle;
+import com.orhanobut.logger.helper.LogPrintHelper;
 
 /**
  * @author Kale
  * @date 2016/12/8
  */
 
-public class XLogStyle extends PrintStyle {
+public class XLogStyle extends AbsLogStyle {
 
     @Nullable
     @Override
-    public String beforePrint() {
+    protected String getMsgHeader() {
         String top = "";
         top += "╔════════════════════════════════════════════════════════════════════════════";
         top += "\n║Thread:" + Thread.currentThread().getName();
@@ -27,29 +26,6 @@ public class XLogStyle extends PrintStyle {
         return top;
     }
 
-    @NonNull
-    @Override
-    protected String printLog(String message, int line, int wholeLineCount) {
-        String prefix = "║";
-        if (wholeLineCount == 1) {
-            return prefix + message;
-        }
-
-        if (line == wholeLineCount - 1) {
-            // last
-            prefix += message;
-        } else {
-            prefix += message;
-        }
-        return prefix;
-    }
-
-    @Nullable
-    @Override
-    protected String afterPrint() {
-        return "╚════════════════════════════════════════════════════════════════════════════";
-    }
-
     private String format(StackTraceElement[] stackTrace) {
         StringBuilder sb = new StringBuilder(256);
         if (stackTrace == null || stackTrace.length == 0) {
@@ -57,7 +33,7 @@ public class XLogStyle extends PrintStyle {
         } else if (stackTrace.length == 1) {
             return "\t─ " + stackTrace[0].toString();
         } else {
-            int index = Logger.STACK_OFFSET + getSettings().methodOffset;
+            int index = LogPrintHelper.BASE_STACK_OFFSET + getSettings().getMethodOffset();
             for (int i = index, N = stackTrace.length; i < N - index; i++) {
                 if (i != N - index - 1) {
                     sb.append("║\t├ ");
@@ -70,5 +46,28 @@ public class XLogStyle extends PrintStyle {
             }
             return sb.toString();
         }
+    }
+
+    @Nullable
+    @Override
+    protected String getMsgFooter() {
+        return "╚════════════════════════════════════════════════════════════════════════════";
+    }
+
+    @Nullable
+    @Override
+    protected String getMsgLine(String message, int line, int lineCount) {
+        String prefix = "║";
+        if (lineCount == 1) {
+            return prefix + message;
+        }
+
+        if (line == lineCount - 1) {
+            // last
+            prefix += message;
+        } else {
+            prefix += message;
+        }
+        return prefix;
     }
 }

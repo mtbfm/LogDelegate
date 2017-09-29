@@ -1,6 +1,4 @@
-package com.orhanobut.logger.util;
-
-import android.util.Pair;
+package com.orhanobut.loggersample.parser;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -8,6 +6,8 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import android.util.Pair;
 
 /**
  * @author Kale
@@ -46,18 +46,18 @@ public class ObjParser {
             return msg + "}";
         } else if (object instanceof Collection) {
             Collection collection = (Collection) object;
-            String msg = "%s size = %d [\n";
-            msg = String.format(Locale.ENGLISH, msg, simpleName, collection.size());
+            StringBuilder msg = new StringBuilder("%s size = %d [\n");
+            msg = new StringBuilder(String.format(Locale.ENGLISH, msg.toString(), simpleName, collection.size()));
             if (!collection.isEmpty()) {
                 Iterator iterator = collection.iterator();
                 int flag = 0;
                 while (iterator.hasNext()) {
                     String itemString = "[%d]:%s%s";
                     Object item = iterator.next();
-                    msg += String.format(Locale.ENGLISH, itemString,
+                    msg.append(String.format(Locale.ENGLISH, itemString,
                             flag,
                             objectToString(item),
-                            flag++ < collection.size() - 1 ? ",\n" : "\n");
+                            flag++ < collection.size() - 1 ? ",\n" : "\n"));
                 }
             }
             return msg + "\n]";

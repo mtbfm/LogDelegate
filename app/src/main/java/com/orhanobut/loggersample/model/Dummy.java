@@ -1,11 +1,11 @@
-package com.orhanobut.loggersample;
+package com.orhanobut.loggersample.model;
 
 /**
  * @author Orhan Obut
  */
 public class Dummy {
 
-    static final String JSON_WITH_LINE_BREAK = "{\"widget\": {\n" +
+    public static final String JSON_WITH_LINE_BREAK = "{\"widget\": {\n" +
             "    \"debug\": \"on\",\n" +
             "    \"window\": {\n" +
             "        \"title\": \"Sample Konfabulator Widget\",\n" +
@@ -23,7 +23,7 @@ public class Dummy {
             "    \"text\": {\n" +
             "        \"data\": \"Click Here\",\n" +
             "        \"size\": 36,\n" +
-            "        \"style\": \"bold\",\n" +
+            "        \"logImp\": \"bold\",\n" +
             "        \"name\": \"text1\",\n" +
             "        \"hOffset\": 250,\n" +
             "        \"vOffset\": 100,\n" +
@@ -32,7 +32,7 @@ public class Dummy {
             "    }\n" +
             "}} ";
 
-    static final String JSON_WITH_NO_LINE_BREAK = "{\"widget\": {" +
+    public static final String JSON_WITH_NO_LINE_BREAK = "{\"widget\": {" +
             "    \"debug\": \"on\"," +
             "    \"window\": {" +
             "        \"title\": \"Sample Konfabulator Widget\"," +
@@ -50,7 +50,7 @@ public class Dummy {
             "    \"text\": {" +
             "        \"data\": \"Click Here\"," +
             "        \"size\": 36," +
-            "        \"style\": \"bold\"," +
+            "        \"logImp\": \"bold\"," +
             "        \"name\": \"text1\"," +
             "        \"hOffset\": 250," +
             "        \"vOffset\": 100," +
@@ -59,7 +59,7 @@ public class Dummy {
             "    }" +
             "}}    ";
 
-    static final String SMALL_SON_WITH_NO_LINE_BREAK = "{\"widget\": {" +
+    public static final String SMALL_SON_WITH_NO_LINE_BREAK = "{\"widget\": {" +
             "    \"debug\": \"on\"," +
             "    \"window\": {" +
             "        \"title\": \"Sample Konfabulator Widget\"," +

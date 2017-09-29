@@ -1,4 +1,4 @@
-package com.orhanobut.loggersample;
+package com.orhanobut.loggersample.model;
 
 import com.orhanobut.logger.Logger;
 
@@ -7,7 +7,7 @@ import com.orhanobut.logger.Logger;
  */
 public class Foo {
 
-    public static void foo(){
+    public static void print(){
         Logger.d("other class");
     }
 }

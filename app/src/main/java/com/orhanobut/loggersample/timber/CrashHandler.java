@@ -1,4 +1,4 @@
-package com.orhanobut.loggersample;
+package com.orhanobut.loggersample.timber;
 
 import android.util.Log;
 
@@ -116,7 +116,7 @@ class CrashHandler implements Thread.UncaughtExceptionHandler {
                 + "     ###################    ###################     ;jD#####DDj    i#####      ,W######K.           ");
         
         Log.d(TAG, "thread name: " + thread.getName());
-        Log.d(TAG, "throwable msg: " + ex.getMessage());
+        Log.d(TAG, "throwable getMsgLine: " + ex.getMessage());
         Log.d(TAG, "======================================== ");
     }
 

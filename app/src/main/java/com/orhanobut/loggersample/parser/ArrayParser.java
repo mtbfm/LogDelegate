@@ -1,4 +1,4 @@
-package com.orhanobut.logger.util;
+package com.orhanobut.loggersample.parser;
 
 import android.util.Pair;
 

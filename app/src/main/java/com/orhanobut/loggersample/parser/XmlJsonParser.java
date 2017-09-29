@@ -1,12 +1,4 @@
-package com.orhanobut.logger.util;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.support.annotation.CheckResult;
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
+package com.orhanobut.loggersample.parser;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -18,6 +10,14 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+
+import android.support.annotation.CheckResult;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * @author Kale
@@ -33,7 +33,7 @@ public class XmlJsonParser {
     @CheckResult
     public static String xml(String xml) {
         if (TextUtils.isEmpty(xml)) {
-            return "Empty/Null xml content.(This msg from logger)";
+            return "Empty/Null xml content.(This getMsgLine from logger)";
         }
         try {
             Source xmlInput = new StreamSource(new StringReader(xml));
@@ -51,7 +51,7 @@ public class XmlJsonParser {
     @CheckResult
     public static String json(@Nullable String json) {
         if (TextUtils.isEmpty(json)) {
-            return "Empty/Null json content.(This msg from logger)";
+            return "Empty/Null json content.(This getMsgLine from logger)";
         }
         try {
             if (json.startsWith("{")) {
@@ -62,6 +62,6 @@ public class XmlJsonParser {
         } catch (JSONException e) {
             return e.getCause().getMessage() + "\n" + json;
         }
-        return "Log error!.(This msg from logger)";
+        return "Log error!.(This getMsgLine from logger)";
     }
 }
