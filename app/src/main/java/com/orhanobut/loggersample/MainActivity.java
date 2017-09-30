@@ -91,6 +91,7 @@ public class MainActivity extends BaseActivity {
         Foo.print();
         new Demo().print();
 
+        
         setRes(123); // 模拟崩溃
     }
 
