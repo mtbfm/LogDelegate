@@ -25,5 +25,7 @@ proguard/
 /build
 .idea
 *.iml
+/app/.externalNativeBuild/
 credential.properties
 /captures
+/app/fabric.properties
