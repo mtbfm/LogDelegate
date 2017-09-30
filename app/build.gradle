@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 
 android {
     compileSdkVersion 26
@@ -10,6 +25,15 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+       	externalNativeBuild {
+                cmake {
+                cppFlags ""
+            }
+        }
+        ndk {
+            // 加了其他的文件夹（比如 armeabi-v7a，x86等）可能会出问题
+            abiFilters "armeabi"
+        }
     }
     buildTypes {
         release {
@@ -21,14 +45,31 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    externalNativeBuild {
+        cmake {
+            path 'CMakeLists.txt'
+        }
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.orhanobut:logger:2.1.1'
+//    compile 'com.orhanobut:logger:2.1.1'
     compile 'com.jakewharton.timber:timber:4.5.1'
+    compile 'com.jakewharton.timber:timber-lint:3.1.0'
 
     compile project(':logger')
     compile project(':lintaar')
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
+    }
+    compile('com.crashlytics.sdk.android:crashlytics-ndk:1.1.6@aar') {
+        transitive = true;
+    }
+}
+crashlytics {
+    enableNdk true
+    androidNdkOut 'src/main/obj'
+    androidNdkLibsOut 'src/main/libs'
 }

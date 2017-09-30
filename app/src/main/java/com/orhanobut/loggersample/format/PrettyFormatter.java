@@ -2,7 +2,7 @@ package com.orhanobut.loggersample.format;
 
 import android.support.annotation.Nullable;
 
-import com.orhanobut.logger.helper.AbsLogFormat;
+import com.orhanobut.logger.helper.AbsLogFormatter;
 import com.orhanobut.logger.helper.LogPrintDelegate;
 
 /**
@@ -10,7 +10,7 @@ import com.orhanobut.logger.helper.LogPrintDelegate;
  * @date 2016/12/8
  */
 
-public class PrettyFormat extends AbsLogFormat {
+public class PrettyFormatter extends AbsLogFormatter {
 
     @Nullable
     @Override

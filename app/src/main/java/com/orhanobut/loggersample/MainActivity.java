@@ -1,11 +1,13 @@
 package com.orhanobut.loggersample;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import java.util.Arrays;
 
 import android.os.Bundle;
 import android.support.annotation.StringRes;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.orhanobut.logger.helper.LogSettings;
@@ -17,21 +19,36 @@ import com.orhanobut.loggersample.model.Foo;
 import com.orhanobut.loggersample.tree.CrashlyticsTree;
 import com.orhanobut.loggersample.tree.LoggerTree;
 import com.orhanobut.loggersample.tree.MyDebugTree;
+import com.orhanobut.loggersample.tree.XLogTree;
 
 import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
-    private static final String TAG = "MainActivity";
+    // Used to load the 'native-lib' library on application startup.
+    static {
+        System.loadLibrary("native-lib");
+        System.loadLibrary("stlport_shared");
+        System.loadLibrary("marsxlog");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
+
+        setContentView(R.layout.activity_main);
 
         // lint check
         System.out.println("lint error");
 
         Log.d(TAG, "onCreate: lint error");
+
+        Button crashBtn = findViewById(R.id.btn);
+        crashBtn.setText(stringFromJNI());
+        crashBtn.setOnClickListener(view -> {
+            throw new RuntimeException("This is a crash!!!!!");
+        });
 
         LogSettings settings = new LogSettings.Builder()
                 .showMethodLink(true)
@@ -42,14 +59,18 @@ public class MainActivity extends AppCompatActivity {
                 .logPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
                 .build();
 
-        Timber.plant(new MyDebugTree(settings), new CrashlyticsTree(), new LoggerTree());
+        Timber.plant(
+                new LoggerTree(),
+                new MyDebugTree(settings),
+                new CrashlyticsTree(this),
+                new XLogTree(getApplicationContext()));
 
         levTest();
 
         largeDataTest();
 
         objTest();
-        
+
         jsonTest();
 
         Timber.d(JsonXmlParser.xml("<name>\n"
@@ -59,12 +80,9 @@ public class MainActivity extends AppCompatActivity {
 
         Timber.d(ObjParser.obj(new User("kale", "male")));
 
-        
-        
         new Thread() {
             @Override
             public void run() {
-                super.run();
                 Timber.d("In Other Thread");
             }
         }.start();
@@ -72,9 +90,14 @@ public class MainActivity extends AppCompatActivity {
         new User("kale", "male").show();
         Foo.print();
         new Demo().print();
+
+        setRes(123); // 模拟崩溃
     }
 
     private void levTest() {
+
+        Timber.d("levTest: dd");
+
         Timber.d("debug");
         Timber.e("error");
         Timber.w("warning");
@@ -91,7 +114,9 @@ public class MainActivity extends AppCompatActivity {
 
         innerTest();
 
-//        Timber.d(test, "s"); // Note:incorrect
+//        Timber.d("Hello %s %s!", "a");
+
+//        Timber.d("abc %s def %s gh", "s"); // Note:incorrect
 
         Timber.tag("Custom Tag").w("logger with custom tag");
         Timber.tag("Custom Tag02").e("logger with custom tag02");
@@ -152,8 +177,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 这里模拟后端给客户端传值的情况。
-     *
      * 这里的id来自外部输入，如果外部输入的值有问题，那么就可能崩溃。
      * 但理论上是不会有数据异常的，为了不崩溃，这里加try-catch
      */
@@ -166,8 +189,19 @@ public class MainActivity extends AppCompatActivity {
             // 防御了崩溃
             e.printStackTrace();
 
+            Throwable throwable = new Throwable("ddd");
+
+            Timber.e(new LocalThrowable(throwable)); // 本地throwable
+            Timber.e(throwable); // 要上报的throwable
+
             // 把崩溃的异常和当前的上下文通过log系统分发
             Timber.e(e, "res id = " + resId);
         }
     }
+
+    /**
+     * A native method that is implemented by the 'native-lib' native library,
+     * which is packaged with this application.
+     */
+    public native String stringFromJNI();
 }

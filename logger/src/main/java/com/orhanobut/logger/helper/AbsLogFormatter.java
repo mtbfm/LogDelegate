@@ -8,23 +8,23 @@ import android.support.annotation.Nullable;
  *
  * 针对log进行样式的处理
  */
-public abstract class AbsLogFormat {
+public abstract class AbsLogFormatter {
 
-    protected LogPrintDelegate helper;
+    protected LogPrintDelegate delegate;
 
-    void setHelper(LogPrintDelegate helper) {
-        this.helper = helper;
+    void setDelegate(LogPrintDelegate delegate) {
+        this.delegate = delegate;
     }
 
     protected LogSettings getSettings() {
-        return helper.getSettings();
+        return delegate.getSettings();
     }
 
     /**
      * 可被复写用来永远返回false
      */
     protected boolean hasCustomTag() {
-        return helper.hasCustomTag();
+        return delegate.hasCustomTag();
     }
 
     @Nullable

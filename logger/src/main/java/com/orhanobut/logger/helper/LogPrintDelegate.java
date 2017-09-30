@@ -29,18 +29,18 @@ public class LogPrintDelegate {
 
     private final LogSettings settings;
 
-    private AbsLogFormat format;
+    private AbsLogFormatter format;
 
     private ILog logImp;
 
     private boolean hasCustomTag = true;
 
-    public LogPrintDelegate(LogSettings settings, AbsLogFormat mFormat, ILog imp) {
+    public LogPrintDelegate(LogSettings settings, AbsLogFormatter mFormat, ILog imp) {
         this.settings = settings;
         this.format = mFormat;
         logImp = imp;
         sb = new StringBuilder();
-        mFormat.setHelper(this);
+        mFormat.setDelegate(this);
     }
 
     /**
@@ -90,9 +90,10 @@ public class LogPrintDelegate {
     }
 
     public void printLog(int priority, String tag, String message, Throwable t) {
+        // 样式美化
         message = formatMessage(message, sb).toString();
         sb.setLength(0);
-        
+
         if (message.length() < MAX_LOG_LENGTH) {
             logImp.println(priority, tag, message, t);
             hasCustomTag = true;

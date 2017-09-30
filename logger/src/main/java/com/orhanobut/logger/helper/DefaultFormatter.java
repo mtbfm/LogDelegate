@@ -6,17 +6,17 @@ import android.support.annotation.Nullable;
  * @author Kale
  * @date 2017/9/28
  */
-public class DefaultFormat extends AbsLogFormat {
+public class DefaultFormatter extends AbsLogFormatter {
 
     private StringBuilder sb = new StringBuilder();
 
     private final int tailOffset;
 
-    public DefaultFormat() {
+    public DefaultFormatter() {
         tailOffset = 0;
     }
 
-    public DefaultFormat(int tailOffset) {
+    public DefaultFormatter(int tailOffset) {
         this.tailOffset = tailOffset;
     }
 
@@ -78,6 +78,5 @@ public class DefaultFormat extends AbsLogFormat {
 
         return sb.toString();
     }
-
 
 }
