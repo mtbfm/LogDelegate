@@ -2,7 +2,8 @@ package com.orhanobut.loggersample;
 
 import android.util.Log;
 
-import com.orhanobut.logger.helper.LogPrintDelegate;
+import com.orhanobut.logger.helper.LogDelegate;
+import com.orhanobut.logger.helper.ILogPrinter;
 import com.orhanobut.logger.helper.LogSettings;
 import com.orhanobut.loggersample.format.PrettyFormatter;
 
@@ -10,12 +11,12 @@ import com.orhanobut.loggersample.format.PrettyFormatter;
  * @author Kale
  * @date 2017/9/28
  */
-public class MyLogAdapter implements LogPrintDelegate.ILog {
+public class LogUtils implements ILogPrinter {
 
-    private LogPrintDelegate mDelegate;
+    private LogDelegate mDelegate;
 
-    public MyLogAdapter(LogSettings settings) {
-        mDelegate = new LogPrintDelegate(settings, new PrettyFormatter(), this);
+    public LogUtils(LogSettings settings) {
+        mDelegate = new LogDelegate(settings, new PrettyFormatter(), this);
     }
 
     public boolean isLoggable(int priority, String tag) {

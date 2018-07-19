@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
  * @author Kale
  * @date 2017/9/29
  */
-public class BaseActivity extends AppCompatActivity{
+public class BaseActivity extends AppCompatActivity {
 
     protected String TAG;
 

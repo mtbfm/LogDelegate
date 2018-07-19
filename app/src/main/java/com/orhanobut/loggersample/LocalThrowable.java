@@ -21,7 +21,4 @@ public class LocalThrowable extends Throwable{
         super(cause);
     }
 
-    public LocalThrowable(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

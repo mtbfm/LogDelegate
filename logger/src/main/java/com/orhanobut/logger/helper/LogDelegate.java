@@ -11,7 +11,7 @@ import android.text.TextUtils;
  * @author Kale
  * @date 2017/9/28
  */
-public class LogPrintDelegate {
+public class LogDelegate {
 
     public static final int BASE_STACK_OFFSET = 10;
 
@@ -31,16 +31,16 @@ public class LogPrintDelegate {
 
     private AbsLogFormatter format;
 
-    private ILog logImp;
+    private ILogPrinter printer;
 
     private boolean hasCustomTag = true;
 
-    public LogPrintDelegate(LogSettings settings, AbsLogFormatter mFormat, ILog imp) {
-        this.settings = settings;
-        this.format = mFormat;
-        logImp = imp;
+    public LogDelegate(LogSettings logSettings, AbsLogFormatter logFormatter, ILogPrinter logPrinter) {
+        settings = logSettings;
+        format = logFormatter;
+        printer = logPrinter;
         sb = new StringBuilder();
-        mFormat.setDelegate(this);
+        logFormatter.setDelegate(this);
     }
 
     /**
@@ -57,15 +57,15 @@ public class LogPrintDelegate {
             if (element == null) {
                 final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
                 int offset = getStackOffsetByClz(stackTrace, stackTrace[1].getClassName()) + settings.methodOffset + 2;
-                tag = getStackElementTag(stackTrace.length > offset ? stackTrace[offset] : stackTrace[stackTrace.length - 1]);
+                tag = getTagByStack(stackTrace.length > offset ? stackTrace[offset] : stackTrace[stackTrace.length - 1]);
             } else {
-                tag = getStackElementTag(element);
+                tag = getTagByStack(element);
             }
         }
         return TextUtils.isEmpty(settings.tagPrefix) ? tag : settings.tagPrefix + "-" + tag;
     }
 
-    private static String getStackElementTag(StackTraceElement element) {
+    private static String getTagByStack(StackTraceElement element) {
         String tag = element.getClassName();
         Matcher m = ANONYMOUS_CLASS.matcher(tag);
         if (m.find()) {
@@ -89,27 +89,31 @@ public class LogPrintDelegate {
         return -1;
     }
 
+    /**
+     * 输出log信息
+     */
     public void printLog(int priority, String tag, String message, Throwable t) {
-        // 样式美化
+        // 1. 样式美化
         message = formatMessage(message, sb).toString();
         sb.setLength(0);
 
+        // 2. 进行输出
         if (message.length() < MAX_LOG_LENGTH) {
-            logImp.println(priority, tag, message, t);
-            hasCustomTag = true;
-            return;
+            // 不是超长log，不用换行，直接进行输出
+            printer.println(priority, tag, message, t);
+        } else {
+            for (int i = 0, length = message.length(); i < length; i++) {
+                int newline = message.indexOf('\n', i);
+                newline = newline != -1 ? newline : length;
+                do {
+                    int end = Math.min(newline, i + MAX_LOG_LENGTH);
+                    String part = message.substring(i, end);
+                    printer.println(priority, tag, "\n" + part, t);
+                    i = end;
+                } while (i < newline);
+            }
         }
 
-        for (int i = 0, length = message.length(); i < length; i++) {
-            int newline = message.indexOf('\n', i);
-            newline = newline != -1 ? newline : length;
-            do {
-                int end = Math.min(newline, i + MAX_LOG_LENGTH);
-                String part = message.substring(i, end);
-                logImp.println(priority, tag, "\n" + part, t);
-                i = end;
-            } while (i < newline);
-        }
         hasCustomTag = true;
     }
 
@@ -138,8 +142,4 @@ public class LogPrintDelegate {
         return hasCustomTag;
     }
 
-    public interface ILog {
-
-        void println(int priority, String tag, String message, Throwable throwable);
-    }
 }

@@ -9,10 +9,14 @@ import timber.log.Timber;
  * @author Kale
  * @date 2016/5/23
  */
-public class LoggerTree extends Timber.DebugTree{
+public class SystemLogTree extends Timber.DebugTree {
 
     @Override
     protected void log(int priority, @Nullable String tag, @Nullable String message, @Nullable Throwable t) {
-        Log.println(priority, tag, message);
+        if (priority < Log.WARN) {
+            System.out.println(message);
+        } else {
+            System.err.println(message);
+        }
     }
 }

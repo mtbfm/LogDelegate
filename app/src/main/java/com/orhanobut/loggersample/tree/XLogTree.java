@@ -2,6 +2,7 @@ package com.orhanobut.loggersample.tree;
 
 import android.content.Context;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 
 import com.tencent.mars.xlog.Log;
 import com.tencent.mars.xlog.Xlog;
@@ -39,7 +40,7 @@ public class XLogTree extends Timber.DebugTree {
      * 直接调用Xlog的native方法进行写盘操作
      */
     @Override
-    protected void log(int priority, String tag, String message, Throwable t) {
+    protected void log(int priority, String tag, @NonNull String message, Throwable t) {
         switch (priority) {
             case android.util.Log.VERBOSE:
                 Log.v(tag, message);

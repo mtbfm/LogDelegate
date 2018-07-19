@@ -1,5 +1,6 @@
 package com.orhanobut.logger.helper;
 
+import android.support.annotation.IntRange;
 import android.util.Log;
 
 /**
@@ -40,6 +41,10 @@ public class LogSettings {
         return new LogSettings();
     }
 
+    LogSettings() {
+
+    }
+
     /**
      * @param priority one of
      *                 {@link Log#VERBOSE},
@@ -48,7 +53,7 @@ public class LogSettings {
      *                 {@link Log#WARN},
      *                 {@link Log#ERROR}
      */
-    public void changeLogLev(int priority) {
+    public void changeLogLev(@IntRange(from = Log.VERBOSE, to = Log.ASSERT) int priority) {
         this.priority = priority;
     }
 

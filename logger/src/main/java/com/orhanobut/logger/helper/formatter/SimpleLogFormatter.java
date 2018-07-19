@@ -1,22 +1,25 @@
-package com.orhanobut.logger.helper;
+package com.orhanobut.logger.helper.formatter;
 
 import android.support.annotation.Nullable;
+
+import com.orhanobut.logger.helper.AbsLogFormatter;
+import com.orhanobut.logger.helper.LogDelegate;
 
 /**
  * @author Kale
  * @date 2017/9/28
  */
-public class DefaultFormatter extends AbsLogFormatter {
+public class SimpleLogFormatter extends AbsLogFormatter {
 
     private StringBuilder sb = new StringBuilder();
 
     private final int tailOffset;
 
-    public DefaultFormatter() {
+    public SimpleLogFormatter() {
         tailOffset = 0;
     }
 
-    public DefaultFormatter(int tailOffset) {
+    public SimpleLogFormatter(int tailOffset) {
         this.tailOffset = tailOffset;
     }
 
@@ -57,7 +60,7 @@ public class DefaultFormatter extends AbsLogFormatter {
 
         sb.setLength(0);
 
-        int index = LogPrintDelegate.BASE_STACK_OFFSET + getSettings().getMethodOffset() + tailOffset;
+        int index = LogDelegate.BASE_STACK_OFFSET + getSettings().getMethodOffset() + tailOffset;
         if (hasCustomTag()) {
             // 如果自定义的tag，那么会多走一个方法
             index -= 1;

@@ -15,8 +15,10 @@ import com.orhanobut.loggersample.model.Demo;
 import com.orhanobut.loggersample.model.Dummy;
 import com.orhanobut.loggersample.model.Foo;
 import com.orhanobut.loggersample.tree.CrashlyticsTree;
-import com.orhanobut.loggersample.tree.LoggerTree;
-import com.orhanobut.loggersample.tree.MyDebugTree;
+import com.orhanobut.loggersample.tree.DefaultLogTree;
+import com.orhanobut.loggersample.tree.SimpleLogTree;
+import com.orhanobut.loggersample.tree.SystemLogTree;
+import com.orhanobut.loggersample.tree.PrettyLogTree;
 import com.orhanobut.loggersample.tree.XLogTree;
 
 import timber.log.Timber;
@@ -58,10 +60,13 @@ public class MainActivity extends BaseActivity {
                 .build();
 
         Timber.plant(
-                new LoggerTree(),
-                new MyDebugTree(settings),
+                new SystemLogTree(),
+                new DefaultLogTree(settings),
+                new SimpleLogTree(settings),
+                new PrettyLogTree(settings),
                 new CrashlyticsTree(this),
-                new XLogTree(getApplicationContext()));
+                new XLogTree(getApplicationContext())
+        );
 
         levTest();
 
@@ -89,7 +94,6 @@ public class MainActivity extends BaseActivity {
         Foo.print();
         new Demo().print();
 
-        
         setRes(123); // 模拟崩溃
     }
 
@@ -107,7 +111,9 @@ public class MainActivity extends BaseActivity {
         Timber.v(null);
         Timber.d("%s test", "kale"); // 多参数 可以解决release版本中字符拼接带来的性能消耗
         String test = "abc %s def %s gh";
-        Timber.d(test);
+
+        Timber.d(test); // 测试timber的lint，正常时应该会报错并给出提示
+
         Timber.w(Log.getStackTraceString(new Throwable()));
         Timber.e("first\nsecond\nthird");
 

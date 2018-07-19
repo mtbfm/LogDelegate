@@ -3,7 +3,7 @@ package com.orhanobut.loggersample.format;
 import android.support.annotation.Nullable;
 
 import com.orhanobut.logger.helper.AbsLogFormatter;
-import com.orhanobut.logger.helper.LogPrintDelegate;
+import com.orhanobut.logger.helper.LogDelegate;
 
 /**
  * @author Kale
@@ -33,7 +33,7 @@ public class PrettyFormatter extends AbsLogFormatter {
         } else if (stackTrace.length == 1) {
             return "\t─ " + stackTrace[0].toString();
         } else {
-            int index = LogPrintDelegate.BASE_STACK_OFFSET + getSettings().getMethodOffset();
+            int index = LogDelegate.BASE_STACK_OFFSET + getSettings().getMethodOffset();
             for (int i = index, N = stackTrace.length; i < N - index; i++) {
                 if (i != N - index - 1) {
                     sb.append("║\t├ ");

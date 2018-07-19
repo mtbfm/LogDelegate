@@ -3,21 +3,26 @@ package com.orhanobut.loggersample.tree;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.orhanobut.logger.helper.LogPrintDelegate;
+import com.orhanobut.logger.helper.AbsLogFormatter;
+import com.orhanobut.logger.helper.LogDelegate;
 import com.orhanobut.logger.helper.LogSettings;
-import com.orhanobut.loggersample.format.PrettyFormatter;
+import com.orhanobut.logger.helper.formatter.DefaultLogFormatter;
 
 import timber.log.Timber;
 
 /**
- * extends {@link timber.log.Timber.Tree} for make log pretty
+ * extends {@link Timber.Tree} to print log
  */
-public final class MyDebugTree extends Timber.DebugTree {
+public class DefaultLogTree extends Timber.DebugTree {
 
-    private LogPrintDelegate mDelegate;
+    private LogDelegate mDelegate;
 
-    public MyDebugTree(LogSettings settings) {
-        mDelegate = new LogPrintDelegate(settings, new PrettyFormatter(),
+    public DefaultLogTree(LogSettings settings) {
+        this(settings, new DefaultLogFormatter());
+    }
+
+    DefaultLogTree(LogSettings settings, AbsLogFormatter formatter) {
+        mDelegate = new LogDelegate(settings, formatter,
                 (priority, tag, message, throwable) -> Log.println(priority, tag, message));
     }
 
@@ -27,7 +32,7 @@ public final class MyDebugTree extends Timber.DebugTree {
     }
 
     @Override
-    protected String createStackElementTag(StackTraceElement element) {
+    protected String createStackElementTag(@NonNull StackTraceElement element) {
         return mDelegate.getAutoTag(element);
     }
 
