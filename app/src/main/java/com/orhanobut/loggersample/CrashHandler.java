@@ -47,10 +47,10 @@ class CrashHandler implements Thread.UncaughtExceptionHandler {
     }
 
     private void uploadExceptionToServer(Thread thread, Throwable ex) {
-        Log.d(TAG, "======================================== ");
-        Log.d(TAG, "thread name: " + thread.getName());
-        Log.d(TAG, "throwable getFormatMsgLine: " + ex.getMessage());
-        Log.d(TAG, "======================================== ");
+        Log.e(TAG, "======================================== ");
+        Log.e(TAG, "thread name: " + thread.getName());
+        Log.e(TAG, "throwable getFormatMsgLine: " + ex.getMessage());
+        Log.e(TAG, "======================================== ");
     }
 
 }  
