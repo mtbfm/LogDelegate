@@ -46,6 +46,9 @@ class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     }
 
+    /**
+     * 模拟上报到服务端
+     */
     private void uploadExceptionToServer(Thread thread, Throwable ex) {
         Log.e(TAG, "======================================== ");
         Log.e(TAG, "thread name: " + thread.getName());
@@ -53,4 +56,4 @@ class CrashHandler implements Thread.UncaughtExceptionHandler {
         Log.e(TAG, "======================================== ");
     }
 
-}  
+}

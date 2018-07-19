@@ -8,7 +8,7 @@ import com.orhanobut.logger.helper.AbsLogFormatter;
  * @author Kale
  * @date 2018/7/19
  */
-public class DefaultLogFormatter extends AbsLogFormatter{
+public class DefaultLogFormatter extends AbsLogFormatter {
 
     @Nullable
     @Override
@@ -27,4 +27,5 @@ public class DefaultLogFormatter extends AbsLogFormatter{
     protected String getFormatMsgLine(String message, int line, int lineCount) {
         return message;
     }
+
 }
