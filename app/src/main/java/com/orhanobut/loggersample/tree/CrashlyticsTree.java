@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
 
 import timber.log.Timber;
 
@@ -21,9 +20,9 @@ public class CrashlyticsTree extends Timber.DebugTree {
     private void logUserInfo() {
         // TODO: Use the current user's information
         // You can call any combination of these three methods
-        Crashlytics.setUserIdentifier("12345");
-        Crashlytics.setUserEmail("user@fabric.io");
-        Crashlytics.setUserName("Test User");
+//        Crashlytics.setUserIdentifier("12345");
+//        Crashlytics.setUserEmail("user@fabric.io");
+//        Crashlytics.setUserName("Test User");
     }
 
     @Override
@@ -38,11 +37,11 @@ public class CrashlyticsTree extends Timber.DebugTree {
         }
 
         if (t == null && message != null) {
-            Crashlytics.logException(new Exception(message));
+//            Crashlytics.logException(new Exception(message));
         } else if (t != null && message != null) {
-            Crashlytics.logException(new Exception(message, t));
+//            Crashlytics.logException(new Exception(message, t));
         } else if (t != null) {
-            Crashlytics.logException(t);
+//            Crashlytics.logException(t);
         }
 
     }

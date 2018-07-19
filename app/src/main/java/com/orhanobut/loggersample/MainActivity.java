@@ -1,7 +1,5 @@
 package com.orhanobut.loggersample;
 
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
 import java.util.Arrays;
 
 import android.os.Bundle;
@@ -35,7 +33,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+//        Fabric.with(this, new Crashlytics());
 
         setContentView(R.layout.activity_main);
 
