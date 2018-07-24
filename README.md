@@ -48,24 +48,24 @@ D/MainActivity: └ just test ==> test(MainActivity.java:67) // 单行
 
 D/MainActivity: └ User{name=jack, sex=f, $change=Object}  ==> objTest(MainActivity.java:72)
 
-D/MainActivity: │ ArrayList size = 3 [
-D/MainActivity: │ [0]:kale,
-D/MainActivity: │ [1]:jack,
-D/MainActivity: │ [2]:tony
+D/MainActivity: │ ArrayList size = 3 [ 
+D/MainActivity: │    [0]:kale,
+D/MainActivity: │    [1]:jack,
+D/MainActivity: │    [2]:tony
 D/MainActivity: │ 
-D/MainActivity: └ ] ==> objTest(MainActivity.java:74)
+D/MainActivity: └ ] ==> objTest(MainActivity.java:74) // list
 
-D/MainActivity: │ String[3] {
-D/MainActivity: │ [Android,	ios,	wp]
-D/MainActivity: └ } ==> objTest(MainActivity.java:76)
+D/MainActivity: │ String[3] { 
+D/MainActivity: │    [Android,	ios,	wp]
+D/MainActivity: └ } ==> objTest(MainActivity.java:76) // array
 
-D/MainActivity: │ double[4][5] {
-D/MainActivity: │ [1.2,	1.6,	1.7,	30.0,	33.0]
-D/MainActivity: │ [1.2,	1.6,	1.7,	30.0,	33.0]
-D/MainActivity: │ [1.2,	1.6,	1.7,	30.0,	33.0]
-D/MainActivity: │ [1.2,	1.6,	1.7,	30.0,	33.0]
+D/MainActivity: │ double[4][5] { 
+D/MainActivity: │   [1.2,	1.6,	1.7,	30.0,	33.0]
+D/MainActivity: │   [1.2,	1.6,	1.7,	30.0,	33.0]
+D/MainActivity: │   [1.2,	1.6,	1.7,	30.0,	33.0]
+D/MainActivity: │   [1.2,	1.6,	1.7,	30.0,	33.0]
 D/MainActivity: │ 
-D/MainActivity: └ } ==> objTest(MainActivity.java:83)
+D/MainActivity: └ } ==> objTest(MainActivity.java:83) // array
 
 D/MainActivity: │ {
 D/MainActivity: │     "widget": {
@@ -77,7 +77,7 @@ D/MainActivity: │             "width": 500,
 D/MainActivity: │             "height": 500
 D/MainActivity: │         }
 D/MainActivity: │     }
-D/MainActivity: └ } ==> jsonTest(MainActivity.java:87)
+D/MainActivity: └ } ==> jsonTest(MainActivity.java:87) // json
 ```
 
 ### Usage
