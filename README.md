@@ -82,7 +82,7 @@ D/MainActivity: └ } ==> jsonTest(MainActivity.java:87) // json
 
 ### Usage
 
-**With Timber**
+#### With Timber
 
 ```java
 public class DefaultLogTree extends Timber.DebugTree {
@@ -140,8 +140,7 @@ Timber.d(ObjParser.obj(Arrays.asList("kale", "jack", "tony")));
 Timber.d(ObjParser.obj(new String[]{"Android", "ios", "wp"}));
 ```
 
-**With Your LogUtil**
-
+#### With Your LogUtil
 
 ```java
 public final class LogUtils {
@@ -187,6 +186,15 @@ public final class LogUtils {
     }
 
 }
+```
+
+```
+LogUtils.init(settings);
+
+LogUtils.d("kale-tag", "my message");
+LogUtils.d("my message");
+
+LogUtils.e("kale-tag", "my error message");
 ```
 
 ### Settings
