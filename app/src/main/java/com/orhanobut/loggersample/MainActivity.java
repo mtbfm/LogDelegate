@@ -36,7 +36,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        Fabric.with(this, new Crashlytics());
-        
+
         CrashHandler.getInstance().init();
 
         setContentView(R.layout.activity_main);
@@ -69,6 +69,12 @@ public class MainActivity extends BaseActivity {
                 new CrashlyticsTree(this),
                 new XLogTree(getApplicationContext())
         );
+
+        LogUtils.init(settings);
+
+        LogUtils.d("kale-tag", "my message");
+        LogUtils.d("my message");
+        LogUtils.e("kale-tag", "my error message");
 
         levTest();
 

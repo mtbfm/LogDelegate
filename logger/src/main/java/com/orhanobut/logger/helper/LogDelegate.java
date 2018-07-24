@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
 /**
  * @author Kale
@@ -15,7 +14,7 @@ public class LogDelegate {
 
     public static final int BASE_STACK_OFFSET = 10;
 
-    private static final int MIN_STACK_OFFSET = 5;
+    public static final int MIN_STACK_OFFSET = 5;
 
     private static final int MAX_LOG_LENGTH = 4000;
 
@@ -40,7 +39,8 @@ public class LogDelegate {
         format = logFormatter;
         printer = logPrinter;
         sb = new StringBuilder();
-        logFormatter.setDelegate(this);
+
+        format.setDelegate(this);
     }
 
     /**
@@ -50,7 +50,7 @@ public class LogDelegate {
         hasCustomTag = false;
         final String tag;
 
-        if (settings.globalTag != null) {
+        if (!isEmpty(settings.globalTag)) {
             // force tag
             tag = settings.globalTag;
         } else {
@@ -62,7 +62,11 @@ public class LogDelegate {
                 tag = getTagByStack(element);
             }
         }
-        return TextUtils.isEmpty(settings.tagPrefix) ? tag : settings.tagPrefix + "-" + tag;
+        return isEmpty(settings.tagPrefix) ? tag : settings.tagPrefix + "-" + tag;
+    }
+
+    private static boolean isEmpty(CharSequence s) {
+        return s == null || s.length() == 0;
     }
 
     private static String getTagByStack(StackTraceElement element) {
@@ -83,7 +87,7 @@ public class LogDelegate {
             StackTraceElement e = trace[i];
             String name = e.getClassName();
             if (!name.equals(clzName)) {
-                return --i;
+                return --i; // 一般情况下是相等的，这里处理tag的问题所以-1
             }
         }
         return -1;
