@@ -87,7 +87,9 @@ D/MainActivity: └ } ==> jsonTest(MainActivity.java:87) // json
 ```java
 public class DefaultLogTree extends Timber.DebugTree {
 
-    private LogDelegate mDelegate;   public DefaultLogTree(LogSettings settings) {
+    private LogDelegate mDelegate;   
+    
+    public DefaultLogTree(LogSettings settings) {
         this(settings, new DefaultLogFormatter()); // or new PrettyFormatter()
   }
 
